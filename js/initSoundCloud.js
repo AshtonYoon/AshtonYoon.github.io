@@ -37,6 +37,17 @@
         promise.then(setTrackPickerManager);
     }
 
+    function getDataOfQuery(aQuery) {
+        var deferred = $.Deferred();
+        SC.get('/tracks', { q: aQuery }, function(tracks) {
+            console.log(tracks);
+
+            // return
+            return deferred.resolve(tracks);
+        });
+        return deferred.promise();
+    }
+
     //검색 결과창의 기능 관리
     function setTrackPickerManager(aDataOfSongs) {
         console.log(aDataOfSongs);
