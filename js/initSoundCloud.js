@@ -26,6 +26,7 @@
             if (event.keyCode === 13) {
                 var query = $(this).val();
                 setTrackPickerByQuery(query);
+                console.log("entered!");
             }
         });
     }
