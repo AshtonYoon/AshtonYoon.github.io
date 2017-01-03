@@ -19,9 +19,6 @@
             client_id: CLIENT_ID
         });
         console.log("success");
-    }
-
-    function setViewEventListeners() {
         $('#search-bar').on('keypress', function(event) {
             if (event.keyCode === 13) {
                 var query = $(this).val();
@@ -29,6 +26,10 @@
                 console.log("entered!");
             }
         });
+    }
+
+    function setViewEventListeners() {
+
     }
 
     function setTrackPickerByQuery(aQuery) {
