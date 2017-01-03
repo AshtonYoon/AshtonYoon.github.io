@@ -1,0 +1,16 @@
+body {
+    overflow: hidden;
+    margin: 0%;
+}
+
+.background {
+    filter: blur(20px) brightness(50%);
+    margin-left: -25%;
+    margin-top: -25%;
+}
+
+.background>img {
+    width: 110%;
+    height: 110%;
+    overflow: hidden;
+}

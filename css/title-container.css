@@ -1,0 +1,31 @@
+.title-container {
+    height: 15%;
+    top: 10%;
+    position: fixed;
+    left: 50%;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    transform: translate(-50%, 0%);
+}
+
+.title-container>img {
+    width: 3.3%;
+    height: initial;
+}
+
+.title-container>p {
+    color: #fff;
+    font-weight: 100;
+}
+
+.title-container>#title {
+    display: initial;
+    font-size: 1.7em;
+}
+
+.title-container>#artist {
+    display: block;
+    font-size: 1.1em;
+    margin-top: 8px;
+}

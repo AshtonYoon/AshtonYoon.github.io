@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <title>♥</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/background.css" rel="stylesheet">
+    <link href="css/main-container.css" rel="stylesheet">
+    <link href="css/status-container.css" rel="stylesheet">
+    <link href="css/control-container.css" rel="stylesheet">
+    <link href="css/title-container.css" rel="stylesheet">
+    <link href="css/volume-container.css" rel="stylesheet">
+    <link href="css/aside-container.css" rel="stylesheet">
+    <link href="css/progress.scss" rel="stylesheet">
+
+    <!--Library(CSS)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link href="css/hover.css" rel="stylesheet">
+
+    <!--Library(JS)-->
+    <script src="js/jquery.js"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+</head>
+
+<body>
+    <style>
+        body {
+            overflow-y: auto;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, .2);
+            border-radius: 0%;
+        }
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+    </style>
+    <div class="background">
+        <img id="background-image" src="resources/_cover.jpg">
+    </div>
+    <div class="title-container">
+        <p id="title">뗄래야 뗄 수 없는 사이</p>
+        <p id="artist">10cm</p>
+    </div>
+    <div class="main-container">
+        <img src="resources/_cover.jpg">
+        <input id="progress" type="number" value="0" min="0" max="100" />
+        <script src="js/progress.js"></script>
+    </div>
+    <div class="status-container">
+        <script src="js/control.js"></script>
+        <div class="control-container">
+            <img src="resources/previous.png" class="previous hvr-backward">
+            <img src="resources/play-button.png" class="play" id="play-button">
+            <img src="resources/next.png" class="next hvr-forward">
+        </div>
+        <div class="volume-container">
+            <img src="resources/speaker.png" class="volume">
+        </div>
+    </div>
+    <div class="aside-container">
+        <script src="js/navigation.js"></script>
+        <nav>
+            <ul id="floating-button">
+                <li id="search-button">Search<a href="http://www.twitter.com"><span><i class="fa fa-search" aria-hidden="true"></i></span></a></li>
+                <li id="aside-menu-button" class="aside-menu-button">List<a href="#"><span><i class="fa fa-list" aria-hidden="true"></i></span></a></li>
+            </ul>
+        </nav>
+    </div>
+    <nav id="navigation-bar" class="aside-menu">
+        <ul style="width: 100%; height: 100%">
+            <li style="width: 100%; height: 10%; background: transparent">
+                <div id="album">
+
+                </div>
+                <div id="title">
+
+                </div>
+                <div id="artist">
+
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <input type="text" id="search-bar" class="aside-menu">
+</body>
+
+</html>
