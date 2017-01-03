@@ -13,7 +13,7 @@
     <link href="css/title-container.css" rel="stylesheet">
     <link href="css/volume-container.css" rel="stylesheet">
     <link href="css/aside-container.css" rel="stylesheet">
-    <link href="css/progress.scss" rel="stylesheet">
+    <link href="css/track-picker.scss" rel="stylesheet">
 
     <!--Library(CSS)-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -98,7 +98,24 @@
             </li>
         </ul>
     </nav>
+    <script src="js/initSoundCloud.js"></script>
     <input type="text" id="search-bar" class="aside-menu">
+    <div id="track-picker">
+        <p>re-select genre</p>
+        <svg class="close-btn">
+        <line x1="7" y1="7" x2="33" y2="33" style="stroke:#222222;"/>
+        <line x1="7" y1="33" x2="33" y2="7" style="stroke:#222222;"/>
+      </svg>
+        <svg id="left-arrow">
+        <line x1="30"  y1="0" x2="10"   y2="20" style="stroke:#222222;"/>
+        <line x1="10"  y1="20" x2="30"   y2="40" style="stroke:#222222;"/>
+      </svg>
+        <svg id="right-arrow">
+        <line x1="10"  y1="0" x2="30"   y2="20" style="stroke:#222222;"/>
+        <line x1="30"  y1="20" x2="10"   y2="40" style="stroke:#222222;"/>
+      </svg>
+        <ul></ul>
+    </div>
 </body>
 
 </html>
