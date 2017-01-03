@@ -50,6 +50,7 @@
 
     //검색 결과창의 기능 관리
     function setTrackPickerManager(aDataOfSongs) {
+        console.log("executed setTrackPickerManager!");
         console.log(aDataOfSongs);
         setPickerViewManager(arrayOfSongsData);
 
@@ -68,6 +69,7 @@
 
     //검색된 음악들의 데이터를 넣어줌
     function setPickerDataManager(aDataOfSongs) {
+        console.log("executed setPickerDataManager!");
         for (var i = 0; i < aDataOfSongs.length; i++) {
             //검색한 음악들의 정보를 추출해줌
             var trackData = extractInfo(aDataOfSongs[i]);
@@ -151,6 +153,7 @@
 
     //검색 후 나온 결과를 보여주는 창
     function displayTrackPicker(aNumber, aSongData, aIndex) {
+        console.log("executed displayTrackPicker!");
         console.log(aIndex);
         console.log(aNumber);
 
