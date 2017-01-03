@@ -22,7 +22,7 @@
     }
 
     function setViewEventListeners() {
-        $('#search-box').on('keypress', function(event) {
+        $('#search-bar').on('keypress', function(event) {
             if (event.keyCode === 13) {
                 var query = $(this).val();
                 setTrackPickerByQuery(query);
