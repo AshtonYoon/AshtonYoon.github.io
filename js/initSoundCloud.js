@@ -45,7 +45,6 @@
             // return
             return deferred.resolve(tracks);
         });
-        return deferred.promise();
     }
 
     //검색 결과창의 기능 관리
