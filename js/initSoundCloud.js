@@ -12,6 +12,7 @@
     var arrayOfSongsData = [];
     var visibleTrackFigure;
     var currentIndexOfTrackOnTheLeft = 0;
+    var totalSongsFigure = 0;
 
     function main() {
         //SoundCloud API 접근 권한 부여
