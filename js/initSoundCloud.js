@@ -44,8 +44,6 @@
 
             // return
             return deferred.resolve(tracks);
-        }).catch(function(error) {
-            alert('There was an error ' + error.message);
         });
         return deferred.promise();
     }
