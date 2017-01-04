@@ -76,6 +76,32 @@
         changeStyle($('#track-picker>ul'), 'width', pickerWidth);
     }
 
+    function getWindowSize() {
+        return $(window).width();
+    }
+
+    function getDisplayingTracksFigure(aWindowSize) {
+        var eachElementWidth = 190;
+        var figure = Math.floor((aWindowSize - 100) / eachElementWidth);
+        return figure;
+    }
+
+    function setVisibleTrackFigure(aVisibleFigure) {
+        visibleTrackFigure = aVisibleFigure;
+    }
+
+    function getVisibleTrackFigure() {
+        return visibleTrackFigure;
+    }
+
+    function getModifiedPickerWidth(aFigure) {
+        return 190 * aFigure;
+    }
+
+    function changeStyle(aDom, aProperty, aValue) {
+        aDom.css(aProperty, aValue);
+    }
+
     //검색된 음악들의 데이터를 넣어줌
     function setPickerDataManager(aDataOfSongs) {
         console.log("executed setPickerDataManager!");
