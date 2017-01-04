@@ -67,6 +67,15 @@
         setSelectingTrackEventListerner();
     }
 
+    // track picker의 dom을 관리함
+    function setPickerViewManager(aArrayOfSongs) {
+        var windowSize = getWindowSize();
+        var figureOfVisibleTracks = getDisplayingTracksFigure(windowSize);
+        setVisibleTrackFigure(figureOfVisibleTracks);
+        var pickerWidth = getModifiedPickerWidth(figureOfVisibleTracks);
+        changeStyle($('#track-picker>ul'), 'width', pickerWidth);
+    }
+
     //검색된 음악들의 데이터를 넣어줌
     function setPickerDataManager(aDataOfSongs) {
         console.log("executed setPickerDataManager!");
