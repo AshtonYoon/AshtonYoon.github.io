@@ -240,9 +240,11 @@
         $(html).appendTo(pickerUl)
             .find('img')
             .css({ opacity: 0 })
-            .load(function() {
+            .on('load', function() {
                 $(this).animate({ opacity: 1 }, 400);
             });
+
+
     }
 
     //요소 숨기기
