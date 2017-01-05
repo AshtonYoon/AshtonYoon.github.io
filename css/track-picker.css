@@ -6,6 +6,8 @@
     left: 100%;
     transform: translateX(-100%);
     top: 0;
+    overflow-y: scroll;
+    max-height: 100%;
 }
 
 #track-picker ul {
