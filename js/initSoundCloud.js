@@ -371,13 +371,6 @@
         $('#track-picker').find('ul').empty();
     }
 
-    // loading
-    function addMask() {
-        var mask = $('<div></div>');
-        mask.addClass('load-mask');
-        $('body').append(mask).hide().fadeIn(300);
-    }
-
     function getMainVisualUrl(aSrc) {
         return aSrc.replace('t300x300.jpg', 't500x500.jpg');
     }
@@ -540,13 +533,6 @@
         aDom.html(aPlaybackTimeHtml);
     }
 
-    // loading finishes
-    function removeMask() {
-        $('.load-mask').fadeOut(500, function() {
-            $(this).remove();
-        });
-    }
-
     // controll stream methods
     function setStreamController() {
         // get boolean
@@ -641,7 +627,7 @@
         }
 
         var playbackTime = calcPlaybackTime(faderPosition);
-        stream(playbackTime);
+        stream(50);
 
         // progress bar interval
         startInterval(playbackTime);
