@@ -76,7 +76,12 @@
     //검색 결과창의 기능 관리
     function setTrackPickerManager(aDataOfSongs) {
         console.log("executed setTrackPickerManager!");
+
+        makeListContentsEmpty();
+        resetTrackPickerView();
+
         console.log(aDataOfSongs);
+
         setPickerViewManager(arrayOfSongsData);
 
         setPickerDataManager(aDataOfSongs);
@@ -248,7 +253,6 @@
             var title = aSongData[i].title;
             var duration = aSongData[i].duration;
             var artistName = aSongData[i].artistName;
-
             html += '<li><figure><img src="' + url + '" id="' + id +
                 '"><figcaption><span class="track-title">' + title + '</span><span class="track-duration">' + duration +
                 '</span><span class="artist-name">' + artistName + '</span></figcaption></figure></li>';
