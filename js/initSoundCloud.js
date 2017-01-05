@@ -247,6 +247,7 @@
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
 
         $('#close-button').on('click', function() {
+            console.log("closed");
             makeListContentsEmpty();
             resetTrackData();
         });
