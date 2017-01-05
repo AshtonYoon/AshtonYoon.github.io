@@ -1,7 +1,11 @@
 #track-picker {
     width: 30%;
     display: block;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(255, 255, 255, .1);
+    position: absolute;
+    left: 100%;
+    transform: translateX(-100%);
+    top: 0;
 }
 
 #track-picker ul {
@@ -26,7 +30,11 @@ figcaption {
     line-height: 2em;
 }
 
-.track-duration track-title {
+.track-duration {
+    display: block;
+}
+
+.track-title {
     display: block;
 }
 
