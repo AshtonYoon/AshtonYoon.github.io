@@ -51,6 +51,12 @@
                 console.log("entered!");
             }
         });
+
+        $('#close-button').on('click', function() {
+            console.log("closed");
+            makeListContentsEmpty();
+            resetTrackData();
+        });
     }
 
     function setViewEventListeners() {
@@ -245,12 +251,6 @@
 
         html += '<li><img src="resources/close-button.png" alt="close" id="close-button" style="width: 5%; opacity: 1; left:100%;' +
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
-
-        $('#close-button').on('click', function() {
-            console.log("closed");
-            makeListContentsEmpty();
-            resetTrackData();
-        });
 
         for (var i = aIndex; i < (aIndex + aNumber); i++) {
             //test
