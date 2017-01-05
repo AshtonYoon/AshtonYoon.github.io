@@ -4,21 +4,21 @@
     background: rgba(0, 0, 0, .5);
 }
 
-#track-picker>ul {
+#track-picker ul {
     width: 100%;
     left: 0px;
 }
 
-#track-picker>figure {
+figure {
     position: relative;
 }
 
-#track-picker>img {
+#track-picker img {
     opacity: 1;
     width: 40%;
 }
 
-#track-picker>figure>figcaption {
+figcaption {
     position: absolute;
     top: 0px;
     left: 41%;
