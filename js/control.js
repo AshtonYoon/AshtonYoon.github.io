@@ -23,5 +23,5 @@ $(document).ready(function() {
                 $('#play-button').animate({ opacity: 1 }, 300, null);
             });
         }
-    })
+    });
 });
