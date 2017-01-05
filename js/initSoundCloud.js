@@ -247,7 +247,8 @@
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
 
         $('#close-button').on('click', function() {
-            resetTrackPickerView();
+            makeListContentsEmpty();
+            resetTrackData();
         });
 
         for (var i = aIndex; i < (aIndex + aNumber); i++) {
