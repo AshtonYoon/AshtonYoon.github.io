@@ -1,7 +1,6 @@
 (function(window, document, $) {
     $(function() {
         main();
-        setViewEventListeners();
     });
 
     // only used for the firstclick
@@ -242,7 +241,7 @@
         html += '<li><img src="resources/close-button.png" alt="close" id="close-button" style="width: 5%; opacity: 1; left:100%;' +
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
 
-        $('#close-button').on('click', function() {
+        $('#close-button').bind('click', function() {
             console.log("closed");
             makeListContentsEmpty();
             resetTrackData();
