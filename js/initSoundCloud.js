@@ -243,6 +243,8 @@
         var html = '';
         var elm = '<li></li>';
 
+        html += '<li><img src="resources/close-button.png" alt="close" style="width: 10%; opacity: 1"></li>'
+
         for (var i = aIndex; i < (aIndex + aNumber); i++) {
             //test
             var imgElm = $('<img>');
