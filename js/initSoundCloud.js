@@ -257,9 +257,9 @@
         // ul 위치 초기화
         var pickerUl = $trackPicker.find('ul');
         pickerUl.css({
-            left: 0
+            left: 0,
+            width: '100%'
         });
-
         // 로딩이 끝난 후 이미지 페이드 인
         $(html).appendTo(pickerUl)
             .find('img')
