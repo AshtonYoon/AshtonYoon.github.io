@@ -1,7 +1,7 @@
 #track-picker {
     width: 30%;
     display: block;
-    background: rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, .2);
     position: absolute;
     left: 100%;
     transform: translateX(-100%);
