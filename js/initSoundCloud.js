@@ -31,6 +31,18 @@
     var now = 0;
     var trackDuration = 0;
 
+    // physical
+    var trackBarWidth = null;
+    var leftPositionOfContainer = null;
+
+    // boolean
+    var isStreaming = false;
+    var isNeverPaused = true;
+    var isplaybackTimeChanged = false;
+
+    // numerical
+    var faderPosition = 0;
+
     // 검색 결과들을 담아줄 곳
     var arrayOfSongsData = [];
     var visibleTrackFigure;
@@ -273,6 +285,7 @@
         //요소가 보여진 후에 이벤트 등록 
         $('#close-button').on('click', function() {
             console.log("closed");
+            //메서드 2개 혹시 모르니까 잘못되면 resetTrackPickerView()로 바꿔주기
             makeListContentsEmpty();
             resetTrackData();
         });
@@ -306,21 +319,20 @@
 
         var titleDom = aTarget.find('figcaption>span.track-title');
         var artistNameDom = aTarget.find('figcaption>span.artist-name');
-        // hide
+        // trackPicker숨기기
         resetTrackPickerView();
-
-        // loading starts
-        addMask();
 
         // 500x500 커버이미지
         var mainVisualUrl = getMainVisualUrl(targetSrc);
-        // convert attr to css format
+
+        // attr을 css형태로 변환시켜줌
         mainVisualUrl = convertAttrToCss(mainVisualUrl);
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
 
-        // asynchronous method
+        // 비동기 메서드
         var promise = getAudio(streamUrl);
+        // 오디오 얻고 초기화시켜주기
         promise.then(init);
     }
 
@@ -396,24 +408,21 @@
     }
 
     function init(isAudioDataReady) {
-        // check whether or not the request successed
+        // request의 성공 여부를 확인함
         if (!isAudioDataReady) {
             if (isAfterFirstTrack) {
                 resetTrackData();
             }
-            removeMask();
-            // reset main visual
             resetMainVisual();
             showAlert();
             return;
         } else {
-            // start init
             if (isAfterFirstTrack) {
                 resetAudioData();
                 resetTrackData();
                 //resetAudioEventListers();
             } else {
-                changeUserState();
+                changeUserState(); // <- isAfterFirstTrack = true
                 resetTrackData();
             }
 
@@ -427,9 +436,6 @@
             setAudioEventListeners();
 
             setTrackDuration();
-
-            // tell initial setting done
-            removeMask();
         }
     }
 
@@ -539,5 +545,181 @@
         $('.load-mask').fadeOut(500, function() {
             $(this).remove();
         });
+    }
+
+    // controll stream methods
+    function setStreamController() {
+        // get boolean
+        var streamingStatus = getStreamingStatus();
+
+        function getStreamingStatus() {
+            return isStreaming;
+        }
+
+        if (streamingStatus) {
+            setPause();
+        } else {
+            setStream();
+        }
+    }
+
+    function setPause() {
+        pause();
+        pausedTimestamp = getCurrentTime();
+        setStreamingState(false);
+        setInitialPauseState(false);
+        clearInterval(progressTimer);
+
+        // view >> play-btn
+        swapBtn();
+    }
+
+    // pause
+    function pause() {
+        sound.stop(0);
+    }
+
+    function getCurrentTime() {
+        return audioCtx.currentTime;
+    }
+
+    function setStreamingState(aCondition) {
+        isStreaming = aCondition;
+    }
+
+    function setInitialPauseState(aCondition) {
+        isNeverPaused = aCondition;
+    }
+
+    // pause or play icon
+    function swapBtn() {
+        if ($('#play-button').attr('class') == 'play') {
+            $('#play-button').removeClass('play');
+            $('#play-button').addClass('stop');
+
+            //animate image
+            $('#play-button').animate({
+                opacity: 0
+            }, 150, function() {
+                $('#play-button').attr('src', 'resources/stop-button.png');
+                $('#play-button').animate({ opacity: 1 }, 300, null);
+            });
+        } else if ($('#play-button').attr('class') == 'stop') {
+            $('#play-button').removeClass('stop');
+            $('#play-button').addClass('play');
+
+            //animate image
+            $('#play-button').animate({
+                opacity: 0
+            }, 150, function() {
+                $('#play-button').attr('src', 'resources/play-button.png');
+                $('#play-button').animate({ opacity: 1 }, 300, null);
+            });
+        }
+    }
+
+    function setStream() {
+        var pausedStatus = getPausedStatus();
+
+        // if never paused
+        if (pausedStatus) {
+            initialTimestamp = getCurrentTime();
+
+            now = initialTimestamp;
+            // if user changed playbacktime..
+            if (isplaybackTimeChanged) {
+                faderPosition = getFaderPosition();
+            }
+            // if not, calculate the stop time & create audio src again
+        } else {
+            var clickedTime = getCurrentTime();
+            now = clickedTime;
+            pausedDuration += (clickedTime - pausedTimestamp);
+            disconnectAudio();
+            setAudio();
+            connectGain();
+        }
+
+        var playbackTime = calcPlaybackTime(faderPosition);
+        stream(playbackTime);
+
+        // progress bar interval
+        startInterval(playbackTime);
+
+        setStreamingState(true);
+
+        // view >> play-btn
+        swapBtn();
+    }
+
+    function getPausedStatus() {
+        return isNeverPaused;
+    }
+
+    function getFaderPosition() {
+        // get relative position to #track-bar
+        return $('#fader').position().left;
+    }
+
+    function disconnectAudio() {
+        sound.disconnect(0);
+    }
+
+    // calc playback time with initial fader position and progress time
+    function calcPlaybackTime(aFaderPosition) {
+        return (aFaderPosition / trackBarWidth) * trackDuration + (now - initialTimestamp - pausedDuration);
+    }
+
+    // play
+    function stream(aPlaybackTime) {
+        sound.start(0, aPlaybackTime);
+    }
+
+    function startInterval(aPlaybackTime) {
+        var $fader = $('#fader');
+        var $progressBar = $('#progress-bar');
+
+        var $playback = $('#playback-time');
+
+        progressTimer = setInterval(function() {
+            var length = convertTimeToLength(aPlaybackTime);
+
+            // view >> progress bar
+            changeStyle($fader, 'left', length);
+            changeStyle($progressBar, 'width', length);
+
+            // view >> playback time
+            var playbackTimeHtml = convertPlaybackTime(aPlaybackTime);
+            displayPlaybackTime($playback, playbackTimeHtml);
+
+            // interval time
+            aPlaybackTime += 0.03;
+
+            if (aPlaybackTime >= trackDuration) {
+                resetInterval();
+            }
+        }, 30);
+    }
+
+    function convertTimeToLength(aPlaybackTime) {
+        return aPlaybackTime / trackDuration * trackBarWidth;
+    }
+
+    function resetInterval() {
+        clearInterval(progressTimer);
+        resetData();
+        setStreamingState(false);
+        swapBtn();
+        // possible to start the song again
+        disconnectAudio();
+        setAudio();
+        connectGain();
+        // start at 0
+        setModifiedPlaybackTimeStatus(false);
+        resetFaderPosition();
+    }
+
+    function setModifiedPlaybackTimeStatus(aCondition) {
+        isplaybackTimeChanged = aCondition;
     }
 })(window, document, window.jQuery);
