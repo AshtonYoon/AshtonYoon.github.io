@@ -89,7 +89,7 @@
 
         //인자 : 개수, 음악 정보, 인덱스?
         displayTrackPicker(visibleFigure, arrayOfSongsData, index);
-        //setSelectingTrackEventListerner();
+        setSelectingTrackEventListerner();
     }
 
     // track picker의 dom을 관리함
@@ -241,12 +241,6 @@
         html += '<li><img src="resources/close-button.png" alt="close" id="close-button" style="width: 5%; opacity: 1; left:100%;' +
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
 
-        $('#close-button').bind('click', function() {
-            console.log("closed");
-            makeListContentsEmpty();
-            resetTrackData();
-        });
-
         for (var i = aIndex; i < (aIndex + aNumber); i++) {
             //test
             var imgElm = $('<img>');
@@ -276,7 +270,12 @@
                 $(this).animate({ opacity: 1 }, 400);
             });
 
-
+        //요소가 보여진 후에 이벤트 등록 
+        $('#close-button').on('click', function() {
+            console.log("closed");
+            makeListContentsEmpty();
+            resetTrackData();
+        });
     }
 
     //요소 숨기기
@@ -300,7 +299,6 @@
     }
 
     function setPlayer(aTarget) {
-
         var target = aTarget.find('img');
         var trackId = getElementId(target);
         var streamUrl = getStreamUrl(trackId);
@@ -314,7 +312,7 @@
         // loading starts
         addMask();
 
-        // main visual
+        // 500x500 커버이미지
         var mainVisualUrl = getMainVisualUrl(targetSrc);
         // convert attr to css format
         mainVisualUrl = convertAttrToCss(mainVisualUrl);
