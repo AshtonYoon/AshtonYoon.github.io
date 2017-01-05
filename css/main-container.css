@@ -4,7 +4,7 @@
     width: 20vw;
     height: 20vw;
     border-radius: 50%;
-    position: absolute;
+    position: fixed;
     top: 45%;
     left: 50%;
     margin-right: -50%;
