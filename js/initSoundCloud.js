@@ -243,8 +243,12 @@
         var html = '';
         var elm = '<li></li>';
 
-        html += '<li><img src="resources/close-button.png" alt="close" style="width: 5%; opacity: 1; left:100%;' +
+        html += '<li><img src="resources/close-button.png" alt="close" id="close-button" style="width: 5%; opacity: 1; left:100%;' +
             'transform: translateX(-100%); position:relative; padding:1%"></li>'
+
+        $('#close-button').on('click', function() {
+            resetTrackPickerView();
+        });
 
         for (var i = aIndex; i < (aIndex + aNumber); i++) {
             //test
