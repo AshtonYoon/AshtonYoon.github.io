@@ -330,6 +330,12 @@
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
 
+        $('#background-image').css('src', mainVisualUrl);
+        $('#main-visual').css('src', mainVisualUrl);
+
+        $('#title').html() = trackTitle;
+        $('#artist').html() = artistName;
+
         // 비동기 메서드
         var promise = getAudio(streamUrl);
         // 오디오 얻고 초기화시켜주기
@@ -653,7 +659,7 @@
 
     // calc playback time with initial fader position and progress time
     function calcPlaybackTime(aFaderPosition) {
-        return (aFaderPosition / trackBarWidth) * trackDuration + (now - initialTimestamp - pausedDuration);
+        return (aFaderPosition / getTrackBarWidth()) * trackDuration + (now - initialTimestamp - pausedDuration);
     }
 
     // play
@@ -707,5 +713,9 @@
 
     function setModifiedPlaybackTimeStatus(aCondition) {
         isplaybackTimeChanged = aCondition;
+    }
+
+    function getTrackBarWidth() {
+        return $('#track-bar').width();
     }
 })(window, document, window.jQuery);
