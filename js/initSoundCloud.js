@@ -78,6 +78,7 @@
         console.log("executed setTrackPickerManager!");
 
         makeListContentsEmpty();
+        resetTrackData();
 
         console.log(aDataOfSongs);
 
