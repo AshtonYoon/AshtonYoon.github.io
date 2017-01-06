@@ -358,7 +358,7 @@
     }
 
     function getElementSrc(aTarget) {
-        return aTarget.css('content');
+        return aTarget.css('currentSrc');
     }
 
     // picker 숨기기
