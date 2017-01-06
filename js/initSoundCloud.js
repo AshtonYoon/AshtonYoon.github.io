@@ -335,10 +335,7 @@
 
         //평균 색깔을 프로그레스바의 배경색으로 
         var averageColor = new ColorThief();
-        $('progress-bar').css('background', 'rgb(' + averageColor.getColor($('#main-visual').css('content'))[0] + ',' +
-            averageColor.getColor($('#main-visual').css('content'))[1] + ',' +
-            averageColor.getColor($('#main-visual').css('content'))[2] + ')');
-
+        console.log(averageColor.getColor('http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'));
         // $('#title').html() = trackTitle;
         // $('#artist').html() = artistName;
 
