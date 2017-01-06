@@ -333,6 +333,12 @@
         $('#background-image').css('content', mainVisualUrl);
         $('#main-visual').css('content', mainVisualUrl);
 
+        //평균 색깔을 프로그레스바의 배경색으로 
+        var averageColor = new ColorThief();
+        $('progress-bar').css('background', 'rgb(' + averageColor.getColor($('#main-visual').attr('src'))[0] + ',' +
+            averageColor.getColor($('#main-visual').attr('src'))[1] + ',' +
+            averageColor.getColor($('#main-visual').attr('src'))[2] + ')');
+
         // $('#title').html() = trackTitle;
         // $('#artist').html() = artistName;
 
