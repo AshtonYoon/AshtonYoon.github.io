@@ -333,8 +333,8 @@
         $('#background-image').css('src', mainVisualUrl);
         $('#main-visual').css('src', mainVisualUrl);
 
-        $('#title').html() = trackTitle;
-        $('#artist').html() = artistName;
+        // $('#title').html() = trackTitle;
+        // $('#artist').html() = artistName;
 
         // 비동기 메서드
         var promise = getAudio(streamUrl);
