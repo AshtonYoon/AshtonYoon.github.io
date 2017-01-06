@@ -335,9 +335,9 @@
 
         //평균 색깔을 프로그레스바의 배경색으로 
         var averageColor = new ColorThief();
-        $('progress-bar').css('background', 'rgb(' + averageColor.getColor($('#main-visual').attr('src'))[0] + ',' +
-            averageColor.getColor($('#main-visual').attr('src'))[1] + ',' +
-            averageColor.getColor($('#main-visual').attr('src'))[2] + ')');
+        $('progress-bar').css('background', 'rgb(' + averageColor.getColor($('#main-visual').css('content'))[0] + ',' +
+            averageColor.getColor($('#main-visual').css('content'))[1] + ',' +
+            averageColor.getColor($('#main-visual').css('content'))[2] + ')');
 
         // $('#title').html() = trackTitle;
         // $('#artist').html() = artistName;
@@ -361,7 +361,7 @@
     }
 
     function getElementSrc(aTarget) {
-        return aTarget.attr('src');
+        return aTarget.css('content');
     }
 
     // picker 숨기기
