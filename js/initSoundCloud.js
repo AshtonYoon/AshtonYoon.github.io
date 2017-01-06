@@ -330,8 +330,8 @@
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
 
-        $('#background-image').css('src', mainVisualUrl);
-        $('#main-visual').css('src', mainVisualUrl);
+        $('#background-image').css('content', mainVisualUrl);
+        $('#main-visual').css('content', mainVisualUrl);
 
         // $('#title').html() = trackTitle;
         // $('#artist').html() = artistName;
