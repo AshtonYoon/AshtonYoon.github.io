@@ -633,7 +633,7 @@
         }
 
         var playbackTime = calcPlaybackTime(faderPosition);
-        stream(50);
+        stream(playbackTime);
 
         // progress bar interval
         startInterval(playbackTime);
