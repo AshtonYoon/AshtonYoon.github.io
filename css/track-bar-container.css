@@ -1,21 +1,24 @@
 #track-bar-container {
     height: 20px;
     width: 60%;
-    position: relative;
+    position: absolute;
     left: 20%;
     padding-top: 15px;
     cursor: pointer;
+    top: 100%;
+    transform: translateY(-100%);
 }
 
 #track-bar-container #track-bar {
     height: 5px;
-    background-color: #000000;
+    background-color: #777777;
     position: relative;
 }
 
 #track-bar-container #track-bar>span {
     position: absolute;
     top: -5px;
+    color: white;
 }
 
 #track-bar-container #track-bar>span:nth-of-type(1) {
