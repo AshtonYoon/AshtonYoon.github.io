@@ -336,8 +336,9 @@
         //평균 색깔을 프로그레스바의 배경색으로 
         var averageColor = new ColorThief();
         console.log(averageColor.getColor('http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'));
-        // $('#title').html() = trackTitle;
-        // $('#artist').html() = artistName;
+
+        $('#title').html(trackTitle);
+        $('#artist').html(artistName);
 
         // 비동기 메서드
         var promise = getAudio(streamUrl);
@@ -528,6 +529,7 @@
     }
 
     function setAudioEventListeners() {
+        console.log('set click event');
         $('#play-button').on('click', function() {
             setStreamController();
         });
