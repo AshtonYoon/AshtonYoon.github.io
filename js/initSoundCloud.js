@@ -534,7 +534,9 @@
     function setAudioEventListeners() {
         console.log('set click event');
         $('#play-button').on('click', function() {
-            setStreamController();
+            if ($('play-button').attr('class') == 'play') {
+                setStreamController();
+            }
         });
     }
 

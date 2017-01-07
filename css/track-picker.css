@@ -17,6 +17,14 @@
 
 #track-picker li {
     cursor: pointer;
+    background: transparent;
+    transition-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    transition-property: background;
+}
+
+#track-picker li:hover {
+    background: rgba(255, 255, 255, .1);
 }
 
 figure {

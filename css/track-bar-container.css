@@ -33,6 +33,7 @@
     width: 200px;
     background-color: #FFFFFF;
     height: 5px;
+    border-radius: 1000px;
 }
 
 #fader {
