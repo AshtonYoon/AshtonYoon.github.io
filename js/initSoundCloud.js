@@ -334,8 +334,11 @@
         $('#main-visual').css('content', mainVisualUrl);
 
         //평균 색깔을 프로그레스바의 배경색으로 
-        var averageColor = new ColorThief();
-        console.log(averageColor.getColor('http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'));
+        // var imageArray = {images: [
+        //     {'file': 'http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'},
+        // ]};
+        // var averageColor = new ColorThief();
+        // console.log(averageColor.getColor(imageArray[0]));
 
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
@@ -423,7 +426,7 @@
             if (isAfterFirstTrack) {
                 resetAudioData();
                 resetTrackData();
-                //resetAudioEventListers();
+                resetAudioEventListers();
             } else {
                 changeUserState(); // <- isAfterFirstTrack = true
                 resetTrackData();
@@ -497,10 +500,10 @@
     }
 
     function resetAudioEventListers() {
-        $('#play-btn').off('click');
+        $('#play-button').off('click');
         $('#track-bar-container').off('click');
         $('#track-bar-container').off('mousedown', '#fader');
-        $('#volume-container>input').off('click');
+        //$('#volume-container>input').off('click');
     }
 
     function changeUserState() {
@@ -567,7 +570,7 @@
         setInitialPauseState(false);
         clearInterval(progressTimer);
 
-        // view >> play-btn
+        // stop-button >> play-button
         swapBtn();
     }
 
