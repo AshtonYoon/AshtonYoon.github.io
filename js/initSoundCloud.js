@@ -534,9 +534,15 @@
     function setAudioEventListeners() {
         console.log('set click event');
         $('#play-button').on('click', function() {
-            if ($('play-button').attr('class') == 'play') {
-                setStreamController();
-            }
+            setStreamController();
+        });
+
+        $('#track-bar-container').on('click', function(event) {
+            faderMoveByClick(event);
+        });
+
+        $('#track-bar-container').on('mousedown', '#fader', function(event) {
+            setFaderDrag(event);
         });
     }
 
@@ -579,6 +585,89 @@
     // pause
     function pause() {
         sound.stop(0);
+    }
+
+    function faderMoveByClick(event) {
+        // change positions of fader, progressbar
+        var cursorX = getCursorPos(event);
+        if (cursorX < 0) {
+            cursorX = 0;
+        }
+        changeStyle($('#fader'), 'left', cursorX);
+        changeStyle($('#progress-bar'), 'width', cursorX);
+
+        setModifiedPlaybackTimeStatus(true);
+        // display possible playback time
+        var playbackTime = calcPlaybackTime(cursorX);
+        // playbacktime in seconds & minutes
+        playbackTime = convertPlaybackTime(playbackTime);
+        displayPlaybackTime($('#playback-time'), playbackTime);
+
+        resetData();
+        // prepare audio buffer again
+        disconnectAudio();
+        setAudio();
+        connectGain();
+
+        // play it immediately
+        if (isStreaming) {
+            clearInterval(progressTimer);
+            setStream();
+        }
+    }
+
+    function setFaderDrag(event) {
+        if (isStreaming) {
+            pause();
+        }
+        resetData();
+        clearInterval(progressTimer);
+        var $trackBarContainer = $('#track-bar-container');
+
+        $trackBarContainer.on('mousemove', setFaderMoveController);
+        $trackBarContainer.on('mouseleave mouseup', detachFaderMoveController);
+    }
+
+    function setFaderMoveController(event) {
+        var faderPosX = getCursorPos(event);
+        var barWidth = getTrackBarWidth();
+        if (faderPosX < 0) {
+            faderPosX = 0;
+        }
+        if (barWidth < faderPosX) {
+            faderPosX = barWidth;
+        }
+
+        // view >> fader, progress-bar
+        changeStyle($('#fader'), 'left', faderPosX);
+        changeStyle($('#progress-bar'), 'width', faderPosX);
+
+        // view >> playback time
+        var playbackTime = convertLengthToTime(faderPosX);
+        var htmlOfTime = convertPlaybackTime(playbackTime);
+        displayPlaybackTime($('#playback-time'), htmlOfTime);
+    }
+
+    function getCursorPos(event) {
+        var cursorX = event.pageX;
+        return cursorX - leftPositionOfContainer;
+    }
+
+    function convertLengthToTime(aLength) {
+        return trackDuration * (aLength / trackBarWidth);
+    }
+
+    function detachFaderMoveController() {
+        // prevent events from being called multiple times
+        var $trackBarContainer = $('#track-bar-container');
+        $trackBarContainer.off('mousemove', setFaderMoveController);
+        $trackBarContainer.off('mouseleave mouseup');
+
+        // if cursor outside container
+        var isCursorInsideContainer = checkCursor(event);
+        if (!isCursorInsideContainer) {
+            faderMoveByClick(event);
+        }
     }
 
     function getCurrentTime() {

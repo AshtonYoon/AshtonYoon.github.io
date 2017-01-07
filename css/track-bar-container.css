@@ -13,6 +13,7 @@
     height: 5px;
     background-color: #777777;
     position: relative;
+    border-radius: 1000px;
 }
 
 #track-bar-container #track-bar>span {
@@ -43,4 +44,5 @@
     left: 200px;
     top: -15px;
     background-color: #ffffff;
+    border-radius: 1000px;
 }
