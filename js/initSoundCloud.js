@@ -349,8 +349,6 @@
         var promise = getAudio(streamUrl);
         // 오디오 얻고 초기화시켜주기
         promise.then(init);
-
-        removeMask();
     }
 
     function getElementId(aTarget) {
@@ -423,6 +421,7 @@
             if (isAfterFirstTrack) {
                 resetTrackData();
             }
+            removeMask();
             resetMainVisual();
             showAlert();
             return;
@@ -446,6 +445,7 @@
             setAudioEventListeners();
 
             setTrackDuration();
+            removeMask();
         }
     }
 
