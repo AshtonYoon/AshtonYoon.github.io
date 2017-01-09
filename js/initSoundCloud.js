@@ -330,8 +330,8 @@
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
 
-        $('#background-image').css('content', mainVisualUrl);
-        $('#main-visual').css('content', mainVisualUrl);
+        $('#background-image').attr('src', mainVisualUrl);
+        $('#main-visual').attr('src', mainVisualUrl);
 
         addMask();
 
