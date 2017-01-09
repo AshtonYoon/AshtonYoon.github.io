@@ -333,6 +333,8 @@
         $('#background-image').css('content', mainVisualUrl);
         $('#main-visual').css('content', mainVisualUrl);
 
+        addMask();
+
         //평균 색깔을 프로그레스바의 배경색으로 
         // var imageArray = {images: [
         //     {'file': 'http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'},
@@ -347,6 +349,8 @@
         var promise = getAudio(streamUrl);
         // 오디오 얻고 초기화시켜주기
         promise.then(init);
+
+        removeMask();
     }
 
     function getElementId(aTarget) {
@@ -816,5 +820,19 @@
 
     function getTrackBarWidth() {
         return $('#track-bar').width();
+    }
+
+    // loading finishes
+    function removeMask() {
+        $('.spinner').fadeOut(500, function() {
+            $(this).remove();
+        });
+    }
+
+    // loading
+    function addMask() {
+        var mask = $('<div></div>');
+        mask.addClass('spinner');
+        $('body').append(mask).hide().fadeIn(300);
     }
 })(window, document, window.jQuery);
