@@ -325,19 +325,10 @@
         // 500x500 커버이미지
         var mainVisualUrl = getMainVisualUrl(targetSrc);
 
-        // attr을 css형태로 변환시켜줌
-        mainVisualUrl = convertAttrToCss(mainVisualUrl);
-        var trackTitle = getElementText(titleDom);
-        var artistName = getElementText(artistNameDom);
-
-        $('#background-image').css('content', mainVisualUrl);
-        $('#main-visual').css('content', mainVisualUrl);
-
-        addMask();
-
+        // 평균 색깔 추출
         var virtualImgTag = document.createElement('img');
         virtualImgTag.id = "virtualImg";
-        virtualImgTag.src = $('#main-visual').css('content');
+        virtualImgTag.src = mainVisualUrl;
         document.body.appendChild(virtualImgTag);
 
         var averageColor = new ColorThief();
@@ -348,6 +339,16 @@
             ', ' + averageColor.getColor(document.getElementById('virtualImg'))[2] + ')');
 
         document.body.removeChild(virtualImgTag);
+
+        // attr을 css형태로 변환시켜줌
+        mainVisualUrl = convertAttrToCss(mainVisualUrl);
+        var trackTitle = getElementText(titleDom);
+        var artistName = getElementText(artistNameDom);
+
+        $('#background-image').css('content', mainVisualUrl);
+        $('#main-visual').css('content', mainVisualUrl);
+
+        addMask();
 
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
