@@ -35,13 +35,13 @@
     var trackBarWidth = null;
     var leftPositionOfContainer = null;
 
+    // numerical
+    var faderPosition = 0;
+
     // boolean
     var isStreaming = false;
     var isNeverPaused = true;
     var isplaybackTimeChanged = false;
-
-    // numerical
-    var faderPosition = 0;
 
     // 검색 결과들을 담아줄 곳
     var arrayOfSongsData = [];
@@ -332,7 +332,7 @@
         //     ', ' + averageColor.getColor(document.getElementById('virtualImg'))[1] +
         //     ', ' + averageColor.getColor(document.getElementById('virtualImg'))[2] + ')');
 
-        // attr을 css형태로 변환시켜줌
+        // attr(src)을 css(content)형태로 변환시켜줌
         mainVisualUrl = convertAttrToCss(mainVisualUrl);
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
@@ -487,7 +487,6 @@
 
     function resetAudioData() {
         resetData();
-        resetFaderPosition();
         clearInterval(progressTimer);
         disconnectAudio();
         setStreamingState(false);
@@ -499,15 +498,10 @@
         pausedDuration = 0;
     }
 
-    function resetFaderPosition() {
-        faderPosition = 0;
-    }
-
     function resetAudioEventListers() {
         $('#play-button').off('click');
         $('#track-bar-container').off('click');
-        $('#track-bar-container').off('mousedown', '#fader');
-        //$('#volume-container>input').off('click');
+        $('#volume-container>input').off('click');
     }
 
     function changeUserState() {
@@ -540,11 +534,9 @@
         $('#play-button').on('click', function() {
             setStreamController();
         });
-
         $('#track-bar-container').on('click', function(event) {
             faderMoveByClick(event);
         });
-
         $('#track-bar-container').on('mousedown', '#fader', function(event) {
             setFaderDrag(event);
         });
@@ -591,67 +583,6 @@
         sound.stop(0);
     }
 
-    function faderMoveByClick(event) {
-        // change positions of fader, progressbar
-        var cursorX = getCursorPos(event);
-        if (cursorX < 0) {
-            cursorX = 0;
-        }
-        changeStyle($('#fader'), 'left', cursorX);
-        changeStyle($('#progress-bar'), 'width', cursorX);
-
-        setModifiedPlaybackTimeStatus(true);
-        // display possible playback time
-        var playbackTime = calcPlaybackTime(cursorX);
-        // playbacktime in seconds & minutes
-        playbackTime = convertPlaybackTime(playbackTime);
-        displayPlaybackTime($('#playback-time'), playbackTime);
-
-        resetData();
-        // prepare audio buffer again
-        disconnectAudio();
-        setAudio();
-        connectGain();
-
-        // play it immediately
-        if (isStreaming) {
-            clearInterval(progressTimer);
-            setStream();
-        }
-    }
-
-    function setFaderDrag(event) {
-        if (isStreaming) {
-            pause();
-        }
-        resetData();
-        clearInterval(progressTimer);
-        var $trackBarContainer = $('#track-bar-container');
-
-        $trackBarContainer.on('mousemove', setFaderMoveController);
-        $trackBarContainer.on('mouseleave mouseup', detachFaderMoveController);
-    }
-
-    function setFaderMoveController(event) {
-        var faderPosX = getCursorPos(event);
-        var barWidth = getTrackBarWidth();
-        if (faderPosX < 0) {
-            faderPosX = 0;
-        }
-        if (barWidth < faderPosX) {
-            faderPosX = barWidth;
-        }
-
-        // view >> fader, progress-bar
-        changeStyle($('#fader'), 'left', faderPosX);
-        changeStyle($('#progress-bar'), 'width', faderPosX);
-
-        // view >> playback time
-        var playbackTime = convertLengthToTime(faderPosX);
-        var htmlOfTime = convertPlaybackTime(playbackTime);
-        displayPlaybackTime($('#playback-time'), htmlOfTime);
-    }
-
     function getCursorPos(event) {
         var cursorX = event.pageX;
         return cursorX - leftPositionOfContainer;
@@ -659,19 +590,6 @@
 
     function convertLengthToTime(aLength) {
         return trackDuration * (aLength / trackBarWidth);
-    }
-
-    function detachFaderMoveController() {
-        // prevent events from being called multiple times
-        var $trackBarContainer = $('#track-bar-container');
-        $trackBarContainer.off('mousemove', setFaderMoveController);
-        $trackBarContainer.off('mouseleave mouseup');
-
-        // if cursor outside container
-        var isCursorInsideContainer = checkCursor(event);
-        if (!isCursorInsideContainer) {
-            faderMoveByClick(event);
-        }
     }
 
     function getCurrentTime() {
@@ -735,7 +653,7 @@
             connectGain();
         }
 
-        var playbackTime = calcPlaybackTime(faderPosition);
+        //var playbackTime = calcPlaybackTime(faderPosition);
         stream(playbackTime);
 
         // progress bar interval
@@ -751,18 +669,8 @@
         return isNeverPaused;
     }
 
-    function getFaderPosition() {
-        // get relative position to #track-bar
-        return $('#fader').position().left;
-    }
-
     function disconnectAudio() {
         sound.disconnect(0);
-    }
-
-    // calc playback time with initial fader position and progress time
-    function calcPlaybackTime(aFaderPosition) {
-        return (aFaderPosition / getTrackBarWidth()) * trackDuration + (now - initialTimestamp - pausedDuration);
     }
 
     // play
@@ -773,7 +681,6 @@
     function startInterval(aPlaybackTime) {
         var $fader = $('#fader');
         var $progressBar = $('#progress-bar');
-
         var $playback = $('#playback-time');
 
         progressTimer = setInterval(function() {
@@ -834,5 +741,118 @@
         var mask = $('<div></div>');
         mask.addClass('spinner');
         $('body').append(mask).hide().fadeIn(300);
+    }
+
+    //fader
+    function faderMoveByClick(event) {
+        // change positions of fader, progressbar
+        var cursorX = getCursorPos(event);
+        if (cursorX < 0) {
+            cursorX = 0;
+        }
+        changeStyle($('#fader'), 'left', cursorX);
+        changeStyle($('#progress-bar'), 'width', cursorX);
+
+        setModifiedPlaybackTimeStatus(true);
+        // display possible playback time
+        var playbackTime = calcPlaybackTime(cursorX);
+        // playbacktime in seconds & minutes
+        playbackTime = convertPlaybackTime(playbackTime);
+        displayPlaybackTime($('#playback-time'), playbackTime);
+
+        resetData();
+        // prepare audio buffer again
+        disconnectAudio();
+        setAudio();
+        connectGain();
+
+        // play it immediately
+        if (isStreaming) {
+            clearInterval(progressTimer);
+            setStream();
+        }
+    }
+
+    function calcPlaybackTime(aFaderPosition) {
+        return (aFaderPosition / trackBarWidth) * trackDuration + (now - initialTimestamp - pausedDuration);
+    }
+
+    function setFaderDrag(event) {
+        if (isStreaming) {
+            pause();
+        }
+        resetData();
+        clearInterval(progressTimer);
+        var $jukeBox = $('#juke-box');
+
+        $jukeBox.on('mousemove', setFaderMoveController);
+        $jukeBox.on('mouseleave mouseup', detachFaderMoveController);
+    }
+
+    function setFaderMoveController(event) {
+        var faderPosX = getCursorPos(event);
+        var barWidth = getTrackBarWidth();
+        if (faderPosX < 0) {
+            faderPosX = 0;
+        }
+        if (barWidth < faderPosX) {
+            faderPosX = barWidth;
+        }
+
+        // view >> fader, progress-bar
+        changeStyle($('#fader'), 'left', faderPosX);
+        changeStyle($('#progress-bar'), 'width', faderPosX);
+
+        // view >> playback time
+        var playbackTime = convertLengthToTime(faderPosX);
+        var htmlOfTime = convertPlaybackTime(playbackTime);
+        displayPlaybackTime($('#playback-time'), htmlOfTime);
+    }
+
+    function detachFaderMoveController() {
+        // prevent events from being called multiple times
+        var $jukeBox = $('#juke-box');
+        $jukeBox.off('mousemove', setFaderMoveController);
+        $jukeBox.off('mouseleave mouseup');
+
+        // if cursor outside container
+        var isCursorInsideContainer = checkCursor(event);
+        if (!isCursorInsideContainer) {
+            faderMoveByClick(event);
+        }
+    }
+
+    function checkCursor(event) {
+        // absolute positions of cursor
+        var posX = event.pageX;
+        var posY = event.pageY;
+
+        /* 
+        container info：calc values of width height top left,
+        judge whether cursor is outside or inside
+        */
+        var $target = $('#track-bar-container');
+        var targetTop = $target.offset().top;
+        var targetLeft = $target.offset().left;
+        var targetWidth = trackBarWidth;
+        var targetHeight = $target.outerHeight();
+
+        if ((targetLeft <= posX) &&
+            (posX <= (targetLeft + targetWidth)) &&
+            (targetTop <= posY) &&
+            (posY <= (targetTop + targetHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getFaderPosition() {
+        // get relative position to #track-bar
+        return $('#fader').position().left;
+    }
+
+    function resetFaderPosition() {
+        faderPosition = 0;
     }
 })(window, document, window.jQuery);
