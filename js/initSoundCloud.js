@@ -330,15 +330,15 @@
         var trackTitle = getElementText(titleDom);
         var artistName = getElementText(artistNameDom);
 
-        $('#background-image').attr('src', mainVisualUrl);
-        $('#main-visual').attr('src', mainVisualUrl);
+        $('#background-image').css('content', mainVisualUrl);
+        $('#main-visual').css('content', mainVisualUrl);
 
         addMask();
 
         var averageColor = new ColorThief();
         console.log(averageColor.getColor(document.getElementById('main-visual')));
 
-        $('#track-bar').css('background', 'rgb(' + averageColor.getColor(document.getElementById('main-visual'))[0] +
+        $('#track-bar').css('background-color', 'rgb(' + averageColor.getColor(document.getElementById('main-visual'))[0] +
             ', ' + averageColor.getColor(document.getElementById('main-visual'))[1] +
             ', ' + averageColor.getColor(document.getElementById('main-visual'))[2] + ')');
 
