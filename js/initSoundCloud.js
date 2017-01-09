@@ -653,7 +653,7 @@
             connectGain();
         }
 
-        //var playbackTime = calcPlaybackTime(faderPosition);
+        var playbackTime = calcPlaybackTime(faderPosition);
         stream(playbackTime);
 
         // progress bar interval
