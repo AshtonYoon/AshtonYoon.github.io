@@ -337,7 +337,7 @@
 
         var virtualImgTag = document.createElement('img');
         virtualImgTag.id = "virtualImg";
-        virtualImgTag.src = mainVisualUrl;
+        virtualImgTag.src = $('#main-visual').css('content');
         document.body.appendChild(virtualImgTag);
 
         var averageColor = new ColorThief();
