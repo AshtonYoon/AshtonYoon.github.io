@@ -1,0 +1,10 @@
+.related-url-container {
+    width: 5%;
+    height: inherit;
+    background-color: rgba(255, 255, 255, .2);
+    border-radius: 9999px;
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translateY(-50%);
+}
