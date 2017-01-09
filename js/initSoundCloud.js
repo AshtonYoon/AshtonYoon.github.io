@@ -335,12 +335,12 @@
 
         addMask();
 
-        //평균 색깔을 프로그레스바의 배경색으로 
-        // var imageArray = {images: [
-        //     {'file': 'http://cfile21.uf.tistory.com/image/23238A34585442A82A8D34'},
-        // ]};
-        // var averageColor = new ColorThief();
-        // console.log(averageColor.getColor(imageArray[0]));
+        var averageColor = new ColorThief();
+        console.log(averageColor.getColor(document.getElementById('main-visual')));
+
+        $('#track-bar').css('background', 'rgb(' + averageColor.getColor(document.getElementById('main-visual'))[0] +
+            ', ' + averageColor.getColor(document.getElementById('main-visual'))[1] +
+            ', ' + averageColor.getColor(document.getElementById('main-visual'))[2] + ')');
 
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
