@@ -325,20 +325,12 @@
         // 500x500 커버이미지
         var mainVisualUrl = getMainVisualUrl(targetSrc);
 
-        // 평균 색깔 추출
-        var virtualImgTag = document.createElement('img');
-        virtualImgTag.id = "virtualImg";
-        virtualImgTag.src = mainVisualUrl;
-        document.body.appendChild(virtualImgTag);
+        // var averageColor = new ColorThief();
+        // console.log(averageColor.getColor(document.getElementById('virtualImg')));
 
-        var averageColor = new ColorThief();
-        console.log(averageColor.getColor(document.getElementById('virtualImg')));
-
-        $('#track-bar').css('background-color', 'rgb(' + averageColor.getColor(document.getElementById('virtualImg'))[0] +
-            ', ' + averageColor.getColor(document.getElementById('virtualImg'))[1] +
-            ', ' + averageColor.getColor(document.getElementById('virtualImg'))[2] + ')');
-
-        document.body.removeChild(virtualImgTag);
+        // $('#track-bar').css('background-color', 'rgb(' + averageColor.getColor(document.getElementById('virtualImg'))[0] +
+        //     ', ' + averageColor.getColor(document.getElementById('virtualImg'))[1] +
+        //     ', ' + averageColor.getColor(document.getElementById('virtualImg'))[2] + ')');
 
         // attr을 css형태로 변환시켜줌
         mainVisualUrl = convertAttrToCss(mainVisualUrl);
