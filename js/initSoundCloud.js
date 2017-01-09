@@ -335,12 +335,19 @@
 
         addMask();
 
-        var averageColor = new ColorThief();
-        console.log(averageColor.getColor(document.getElementById('main-visual')));
+        var virtualImgTag = document.createElement('img');
+        virtualImgTag.id = "virtualImg";
+        virtualImgTag.src = mainVisualUrl;
+        document.body.appendChild(virtualImgTag);
 
-        $('#track-bar').css('background-color', 'rgb(' + averageColor.getColor(document.getElementById('main-visual'))[0] +
-            ', ' + averageColor.getColor(document.getElementById('main-visual'))[1] +
-            ', ' + averageColor.getColor(document.getElementById('main-visual'))[2] + ')');
+        var averageColor = new ColorThief();
+        console.log(averageColor.getColor(document.getElementById('virtualImg')));
+
+        $('#track-bar').css('background-color', 'rgb(' + averageColor.getColor(document.getElementById('virtualImg'))[0] +
+            ', ' + averageColor.getColor(document.getElementById('virtualImg'))[1] +
+            ', ' + averageColor.getColor(document.getElementById('virtualImg'))[2] + ')');
+
+        document.body.removeChild(virtualImgTag);
 
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
