@@ -3,6 +3,8 @@
         main();
     });
 
+    var permalink = new Array();
+
     // only used for the firstclick
     var isAfterFirstTrack = false;
 
@@ -84,6 +86,8 @@
     function setTrackPickerManager(aDataOfSongs) {
         console.log("executed setTrackPickerManager!");
 
+        resetLinkData();
+
         makeListContentsEmpty();
         resetTrackData();
 
@@ -102,6 +106,10 @@
         //인자 : 개수, 음악 정보, 인덱스?
         displayTrackPicker(visibleFigure, arrayOfSongsData, index);
         setSelectingTrackEventListerner();
+    }
+
+    function resetLinkData(params) {
+        permalink = [];
     }
 
     // track picker의 dom을 관리함
@@ -145,6 +153,7 @@
         for (var i = 0; i < aDataOfSongs.length; i++) {
             //검색한 음악들의 정보를 추출해줌
             var trackData = extractInfo(aDataOfSongs[i]);
+            permalink[i] = trackData.permalink_url;
             if ((trackData.artwork !== null) && (trackData.streamable === true)) {
                 organizeStoringData(true, trackData);
             }
@@ -774,7 +783,7 @@
     }
 
     function calcPlaybackTime(aFaderPosition) {
-        return (aFaderPosition / trackBarWidth) * trackDuration + (now - initialTimestamp - pausedDuration);
+        return (aFaderPosition / getTrackBarWidth()) * trackDuration + (now - initialTimestamp - pausedDuration);
     }
 
     function setFaderDrag(event) {
