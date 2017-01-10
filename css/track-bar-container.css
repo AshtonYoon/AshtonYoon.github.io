@@ -1,3 +1,10 @@
+#juke-box {
+    height: 20px;
+    width: 100%;
+    bottom: 0%;
+    position: absolute;
+}
+
 #track-bar-container {
     height: 20px;
     width: 60%;
