@@ -29,11 +29,12 @@
     var analyser;
     var frequencyData;
 
-    var visualizer = document.getElementById('visualizer'),
-        canvas = document.querySelector('#visualizer > canvas'),
-        ctx = canvas.getContext('2d'),
-        canvasWidth = canvas.width,
-        canvasHeight = canvas.height;
+    var visualizer;
+    var canvas;
+    var ctx;
+    var canvasWidth;
+    var canvasHeight;
+
     // interval
     var progressTimer;
 
