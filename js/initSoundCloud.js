@@ -349,10 +349,34 @@
         $('#background-image').css('content', mainVisualUrl);
         $('#main-visual').css('content', mainVisualUrl);
 
-        addMask();
-
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
+
+        addMask();
+
+        var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+        var sound = document.getElementById('sound'),
+            audioCtx = new AudioContext(),
+            source = audioCtx.createMediaElementSource(sound),
+            analyser = audioCtx.createAnalyser(),
+            frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        var visualizer = document.getElementById('visualizer'),
+            canvas = document.querySelector('#visualizer > canvas'),
+            ctx = canvas.getContext('2d'),
+            canvasWidth = canvas.width,
+            canvasHeight = canvas.height;
+
+        var freqs = [60, 90, 130, 225, 320, 453, 640, 900, 1300, 1800, 2500, 3000, 4500, 6000, 8000, 10000, 12000, 14000, 15000, 16000];
+
+        sound.crossOrigin = "anonymous";
+
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        setSrc(sound, streamUrl);
+        start();
 
         // 비동기 메서드
         var promise = getAudio(streamUrl);
@@ -423,6 +447,34 @@
         xhr.send();
         return deferred.promise();
     }
+
+    function start() {
+        analyser.getByteFrequencyData(frequencyData);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        for (var i = 0; i < freqs.length; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * (canvasWidth * 8) / 200, 300);
+            ctx.lineTo(i * (canvasWidth * 8) / 200, 300 - freq(freqs[i]));
+            ctx.lineWidth = (canvasWidth * 8) / 200;
+            ctx.strokeStyle = "#fff";
+            ctx.stroke();
+        }
+        //draw at constant cycle
+        requestAnimFrame(start);
+    }
+
+    function freq(frequency) {
+        //get Hz
+        var nyquistFreq = audioCtx.sampleRate / 2;
+        var visualFreq = Math.round(frequency / nyquistFreq * frequencyData.length);
+
+        return frequencyData[visualFreq] - 75;
+    }
+
+    function setSrc(aTarget, streamUrl) {
+        aTarget.src = streamUrl;
+    };
 
     function init(isAudioDataReady) {
         // request의 성공 여부를 확인함
