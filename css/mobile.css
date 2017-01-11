@@ -33,7 +33,8 @@
     }
     .previous,
     .play,
-    .next {
+    .next,
+    .stop {
         position: absolute;
     }
 }

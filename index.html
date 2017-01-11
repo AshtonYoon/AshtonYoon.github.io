@@ -16,6 +16,7 @@
     <link href="css/track-bar-container.css" rel="stylesheet">
     <link href="css/track-picker.css" rel="stylesheet">
     <link href="css/loader.css" rel="stylesheet">
+    <link href="css/visualizer.css" rel="stylesheet">
     <link href="css/mobile.css" rel="stylesheet">
 
     <!--Library(CSS)-->
@@ -103,6 +104,19 @@
             </div>
         </div>
     </section>
+    <script src="js/visualizer.js"></script>
+    <div id="visualizer" class="visualizer">
+        <canvas width="300" height="300"></canvas>
+        <audio id="sound" controls></audio>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="filter">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 36 -14" result="filter" />
+        </filter>
+      </defs>
+    </svg>
 </body>
 
 </html>
