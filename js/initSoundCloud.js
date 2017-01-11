@@ -386,9 +386,11 @@
 
         addMask();
 
+        setSrc(streamUrl);
+        sound.load();
+
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
-        setSrc(streamUrl);
         start();
 
         // 비동기 메서드
