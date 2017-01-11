@@ -35,8 +35,6 @@
     var canvasWidth;
     var canvasHeight;
 
-    sound.crossOrigin = "anonymous";
-
     var freqs = [60, 90, 130, 225, 320, 453, 640, 900, 1300, 1800, 2500, 3000, 4500, 6000, 8000, 10000, 12000, 14000, 15000, 16000];
 
     // interval
@@ -82,6 +80,8 @@
             source = audioCtx.createMediaElementSource(sound),
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        sound.crossOrigin = "anonymous";
 
         visualizer = document.getElementById('visualizer'),
             canvas = document.querySelector('#visualizer > canvas'),
