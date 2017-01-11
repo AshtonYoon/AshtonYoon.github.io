@@ -3,6 +3,7 @@
     width: 100%;
     bottom: 0%;
     position: absolute;
+    z-index: 2;
 }
 
 #track-bar-container {
@@ -14,6 +15,7 @@
     cursor: pointer;
     top: 100%;
     transform: translateY(-100%);
+    z-index: 2;
 }
 
 #track-bar-container #track-bar {
@@ -21,20 +23,24 @@
     background-color: #777777;
     position: relative;
     border-radius: 1000px;
+    z-index: 2;
 }
 
 #track-bar-container #track-bar>span {
     position: absolute;
     top: -5px;
     color: white;
+    z-index: 2;
 }
 
 #track-bar-container #track-bar>span:nth-of-type(1) {
     left: calc(0% - 50px);
+    z-index: 2;
 }
 
 #track-bar-container #track-bar>span:nth-of-type(2) {
     right: calc(0% - 50px);
+    z-index: 2;
 }
 
 #progress-bar {
@@ -42,6 +48,7 @@
     background-color: #FFFFFF;
     height: 5px;
     border-radius: 1000px;
+    z-index: 2;
 }
 
 #fader {
@@ -52,4 +59,5 @@
     top: -15px;
     background-color: #ffffff;
     border-radius: 1000px;
+    z-index: 2;
 }

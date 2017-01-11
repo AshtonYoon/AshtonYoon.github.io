@@ -7,25 +7,30 @@
     display: table-cell;
     vertical-align: middle;
     transform: translate(-50%, 0%);
+    z-index: 2;
 }
 
 .title-container>img {
     width: 3.3%;
     height: initial;
+    z-index: 2;
 }
 
 .title-container>p {
     color: #fff;
     font-weight: 100;
+    z-index: 2;
 }
 
 .title-container>#title {
     display: initial;
     font-size: 1.7em;
+    z-index: 2;
 }
 
 .title-container>#artist {
     display: block;
     font-size: 1.1em;
     margin-top: 8px;
+    z-index: 2;
 }

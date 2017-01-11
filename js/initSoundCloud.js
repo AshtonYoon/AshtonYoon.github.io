@@ -372,6 +372,9 @@
 
         addMask();
 
+        //disconnect previous audio source
+        source = null;
+
         sound = document.getElementById('sound'),
             audioCtx = new AudioContext(),
             source = audioCtx.createMediaElementSource(sound),

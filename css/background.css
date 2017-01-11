@@ -7,10 +7,12 @@ body {
     filter: blur(20px) brightness(50%);
     margin-left: -25%;
     margin-top: -25%;
+    z-index: -1;
 }
 
 .background>img {
     width: 110%;
     height: 110%;
     overflow: hidden;
+    z-index: -1;
 }

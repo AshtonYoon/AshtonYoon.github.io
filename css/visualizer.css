@@ -1,17 +1,3 @@
-html,
-body {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    background-color: #f4f4f4;
-}
-
-img.pos {
-    position: absolute;
-    margin: 10px;
-}
-
 .anim {
     width: 200px;
     height: 150px;
@@ -23,7 +9,7 @@ img.pos {
     height: 30px;
     bottom: 0;
     background-color: #039BE5;
-    z-index: 2;
+    z-index: 0;
 }
 
 .visualizer {
@@ -38,6 +24,7 @@ img.pos {
     overflow: hidden;
     background-color: transparent;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    z-index: 0;
 }
 
 .visualizer canvas {
@@ -48,6 +35,7 @@ img.pos {
     opacity: 0.5;
     -webkit-filter: url("#filter");
     filter: url("#filter");
+    z-index: 0;
 }
 
 audio#sound {
@@ -57,4 +45,5 @@ audio#sound {
     left: 0;
     border: 0;
     background-color: black;
+    z-index: 0;
 }
