@@ -23,17 +23,17 @@
     var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-    var sound = document.getElementById('sound'),
-        audioCtx = new AudioContext(),
-        source = audioCtx.createMediaElementSource(sound),
-        analyser = audioCtx.createAnalyser(),
-        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    var sound;
+    var audioCtx;
+    var source;
+    var analyser;
+    var frequencyData;
 
-    var visualizer = document.getElementById('visualizer'),
-        canvas = document.querySelector('#visualizer > canvas'),
-        ctx = canvas.getContext('2d'),
-        canvasWidth = canvas.width,
-        canvasHeight = canvas.height;
+    var visualizer;
+    var canvas;
+    var ctx;
+    var canvasWidth;
+    var canvasHeight;
 
     sound.crossOrigin = "anonymous";
 
@@ -76,7 +76,19 @@
         SC.initialize({
             client_id: CLIENT_ID
         });
-        console.log("success");
+
+        sound = document.getElementById('sound'),
+            audioCtx = new AudioContext(),
+            source = audioCtx.createMediaElementSource(sound),
+            analyser = audioCtx.createAnalyser(),
+            frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        visualizer = document.getElementById('visualizer'),
+            canvas = document.querySelector('#visualizer > canvas'),
+            ctx = canvas.getContext('2d'),
+            canvasWidth = canvas.width,
+            canvasHeight = canvas.height;
+
         $('#search-bar').on('keypress', function(event) {
             if (event.keyCode === 13) {
                 var query = $(this).val();
