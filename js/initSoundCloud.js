@@ -35,6 +35,8 @@
     var canvasWidth;
     var canvasHeight;
 
+    var freqs = [60, 90, 130, 225, 320, 453, 640, 900, 1300, 1800, 2500, 3000, 4500, 6000, 8000, 10000, 12000, 14000, 15000, 16000];
+
     // interval
     var progressTimer;
 
@@ -381,8 +383,6 @@
             ctx = canvas.getContext('2d'),
             canvasWidth = canvas.width,
             canvasHeight = canvas.height;
-
-        var freqs = [60, 90, 130, 225, 320, 453, 640, 900, 1300, 1800, 2500, 3000, 4500, 6000, 8000, 10000, 12000, 14000, 15000, 16000];
 
         sound.crossOrigin = "anonymous";
 
