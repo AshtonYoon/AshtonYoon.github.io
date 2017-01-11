@@ -375,6 +375,8 @@
         document.getElementById('sound').removeAttribute('src');
         sound = null;
         source = null;
+        audioCtx = null;
+        analyser = null;
 
         sound = document.getElementById('sound'),
             audioCtx = new AudioContext(),
