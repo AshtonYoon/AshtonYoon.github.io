@@ -375,14 +375,16 @@
         document.getElementById('sound').removeAttribute('src');
         sound = null;
         source = null;
-        audioCtx = null;
-        analyser = null;
 
-        sound = document.getElementById('sound'),
-            audioCtx = new AudioContext(),
-            source = audioCtx.createMediaElementSource(sound),
-            analyser = audioCtx.createAnalyser(),
-            frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        sound = document.getElementById('sound');
+        var options = {
+            sound: mediaElement
+        }
+        audioCtx = new AudioContext();
+        source = new MediaElementAudioSourceNode(audioCtx, options);
+        analyser = audioCtx.createAnalyser();
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
         visualizer = document.getElementById('visualizer'),
             canvas = document.querySelector('#visualizer > canvas'),
