@@ -387,7 +387,7 @@
         addMask();
 
         setSrc(streamUrl);
-        sound.load();
+        document.getElementById('sound').load();
 
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
