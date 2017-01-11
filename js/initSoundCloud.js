@@ -372,6 +372,7 @@
 
         addMask();
 
+        document.getElementById('sound').removeAttribute('src');
         sound = null;
         source = null;
 
