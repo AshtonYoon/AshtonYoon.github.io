@@ -372,12 +372,11 @@
 
         addMask();
 
-        //disconnect previous audio source
+        sound = null;
         source = null;
 
         sound = document.getElementById('sound'),
-            sound.src = null;
-        audioCtx = new AudioContext(),
+            audioCtx = new AudioContext(),
             source = audioCtx.createMediaElementSource(sound),
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
