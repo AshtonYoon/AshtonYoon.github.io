@@ -376,7 +376,8 @@
         source = null;
 
         sound = document.getElementById('sound'),
-            audioCtx = new AudioContext(),
+            sound.src = null;
+        audioCtx = new AudioContext(),
             source = audioCtx.createMediaElementSource(sound),
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
