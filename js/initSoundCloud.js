@@ -23,7 +23,7 @@
     var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-    var sound;
+    var $sound;
     var audioCtx;
     var source;
     var analyser;
@@ -75,13 +75,13 @@
             client_id: CLIENT_ID
         });
 
-        sound = document.getElementById('sound'),
+        $sound = document.getElementById('sound'),
             audioCtx = new AudioContext(),
-            source = audioCtx.createMediaElementSource(sound),
+            source = audioCtx.createMediaElementSource($sound),
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-        sound.crossOrigin = "anonymous";
+        $sound.crossOrigin = "anonymous";
 
         visualizer = document.getElementById('visualizer'),
             canvas = document.querySelector('#visualizer > canvas'),
@@ -488,7 +488,7 @@
     }
 
     function setSrc(streamUrl) {
-        sound.src = streamUrl;
+        $sound.src = streamUrl;
     };
 
     function init(isAudioDataReady) {
