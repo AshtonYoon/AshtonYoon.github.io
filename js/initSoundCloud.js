@@ -23,17 +23,19 @@
     var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-    var sound;
-    var audioCtx;
-    var source;
-    var analyser;
-    var frequencyData;
+    var sound = document.getElementById('sound'),
+        audioCtx = new AudioContext(),
+        source = audioCtx.createMediaElementSource(sound),
+        analyser = audioCtx.createAnalyser(),
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-    var visualizer;
-    var canvas;
-    var ctx;
-    var canvasWidth;
-    var canvasHeight;
+    var visualizer = document.getElementById('visualizer'),
+        canvas = document.querySelector('#visualizer > canvas'),
+        ctx = canvas.getContext('2d'),
+        canvasWidth = canvas.width,
+        canvasHeight = canvas.height;
+
+    sound.crossOrigin = "anonymous";
 
     var freqs = [60, 90, 130, 225, 320, 453, 640, 900, 1300, 1800, 2500, 3000, 4500, 6000, 8000, 10000, 12000, 14000, 15000, 16000];
 
@@ -371,22 +373,6 @@
         $('#artist').html(artistName);
 
         addMask();
-
-        resetAudioData();
-
-        sound = document.getElementById('sound'),
-            audioCtx = new AudioContext(),
-            source = audioCtx.createMediaElementSource(sound),
-            analyser = audioCtx.createAnalyser(),
-            frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-        visualizer = document.getElementById('visualizer'),
-            canvas = document.querySelector('#visualizer > canvas'),
-            ctx = canvas.getContext('2d'),
-            canvasWidth = canvas.width,
-            canvasHeight = canvas.height;
-
-        sound.crossOrigin = "anonymous";
 
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
