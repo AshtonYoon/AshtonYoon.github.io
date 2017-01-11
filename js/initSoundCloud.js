@@ -19,6 +19,21 @@
     var sound;
     var gainNode;
 
+    //visualizer
+    var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var sound;
+    var audioCtx;
+    var source;
+    var analyser;
+    var frequencyData;
+
+    var visualizer = document.getElementById('visualizer'),
+        canvas = document.querySelector('#visualizer > canvas'),
+        ctx = canvas.getContext('2d'),
+        canvasWidth = canvas.width,
+        canvasHeight = canvas.height;
     // interval
     var progressTimer;
 
@@ -354,16 +369,13 @@
 
         addMask();
 
-        var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
-        var sound = document.getElementById('sound'),
+        sound = document.getElementById('sound'),
             audioCtx = new AudioContext(),
             source = audioCtx.createMediaElementSource(sound),
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-        var visualizer = document.getElementById('visualizer'),
+        visualizer = document.getElementById('visualizer'),
             canvas = document.querySelector('#visualizer > canvas'),
             ctx = canvas.getContext('2d'),
             canvasWidth = canvas.width,
@@ -375,7 +387,7 @@
 
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
-        setSrc(sound, streamUrl);
+        setSrc(streamUrl);
         start();
 
         // 비동기 메서드
@@ -472,8 +484,8 @@
         return frequencyData[visualFreq] - 75;
     }
 
-    function setSrc(aTarget, streamUrl) {
-        aTarget.src = streamUrl;
+    function setSrc(streamUrl) {
+        sound.src = streamUrl;
     };
 
     function init(isAudioDataReady) {
