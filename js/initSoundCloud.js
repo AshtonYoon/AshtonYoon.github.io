@@ -608,7 +608,12 @@
     function setAudioEventListeners() {
         console.log('set click event');
         $('#play-button').on('click', function() {
-            setStreamController();
+            if (isPlaying($sound)) {
+                $sound.play();
+            } else {
+                $sound.pause();
+            }
+            //setStreamController();
         });
         $('#track-bar-container').on('click', function(event) {
             faderMoveByClick(event);
@@ -616,6 +621,10 @@
         $('#track-bar-container').on('mousedown', '#fader', function(event) {
             setFaderDrag(event);
         });
+    }
+
+    function isPlaying(audioElement) {
+        return !audioElement.paused;
     }
 
     function setTrackDuration() {
