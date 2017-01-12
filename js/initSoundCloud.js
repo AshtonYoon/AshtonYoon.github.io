@@ -609,9 +609,9 @@
         console.log('set click event');
         $('#play-button').on('click', function() {
             if (isPlaying($sound)) {
-                $sound.play();
-            } else {
                 $sound.pause();
+            } else {
+                $sound.play();
             }
             //setStreamController();
         });
