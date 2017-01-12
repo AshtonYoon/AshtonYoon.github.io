@@ -5,23 +5,21 @@
 
     var permalink = new Array();
 
-    // only used for the firstclick
-    var isAfterFirstTrack = false;
-
     // audio data
     var audioCtx;
     if ('webkitAudioContext' in window) {
-        audioCtx = new webkitAudioContext();
+        //audioCtx = new webkitAudioContext();
+        audioCtx = new window.AudioContext();
     } else {
         audioCtx = new window.AudioContext();
     }
+
     var buf;
     var sound;
     var gainNode;
 
     //visualizer
-    var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var requestAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     var $sound;
     var audioCtx;
@@ -54,9 +52,6 @@
     // physical
     var trackBarWidth = null;
     var leftPositionOfContainer = null;
-
-    // numerical
-    var faderPosition = 0;
 
     // boolean
     var isStreaming = false;
@@ -93,7 +88,6 @@
             if (event.keyCode === 13) {
                 var query = $(this).val();
                 setTrackPickerByQuery(query);
-                console.log("entered!");
             }
         });
     }
@@ -106,8 +100,6 @@
     function getDataOfQuery(aQuery) {
         var deferred = $.Deferred();
         SC.get('/tracks', { q: aQuery }, function(tracks) {
-            console.log(tracks);
-
             // return
             return deferred.resolve(tracks);
         });
@@ -116,14 +108,10 @@
 
     //검색 결과창의 기능 관리
     function setTrackPickerManager(aDataOfSongs) {
-        console.log("executed setTrackPickerManager!");
-
         resetLinkData();
 
         makeListContentsEmpty();
         resetTrackData();
-
-        console.log(aDataOfSongs);
 
         setPickerViewManager(arrayOfSongsData);
 
@@ -181,7 +169,6 @@
 
     //검색된 음악들의 데이터를 넣어줌
     function setPickerDataManager(aDataOfSongs) {
-        console.log("executed setPickerDataManager!");
         for (var i = 0; i < aDataOfSongs.length; i++) {
             //검색한 음악들의 정보를 추출해줌
             var trackData = extractInfo(aDataOfSongs[i]);
@@ -266,24 +253,8 @@
 
     //검색 후 나온 결과를 보여주는 창
     function displayTrackPicker(aNumber, aSongData, aIndex) {
-        console.log("executed displayTrackPicker!");
-        console.log(aIndex);
-        console.log(aNumber);
-
         var length = aSongData.length;
 
-        // 인덱스가 0이면 뒤로가기 버튼을 숨김
-        if (aIndex === 0) {
-            hideElement($('#left-arrow'));
-        } else {
-            displayArrow($('#left-arrow'));
-        }
-
-        if ((aNumber + aIndex) === length) {
-            hideElement($('#right-arrow'));
-        } else {
-            displayArrow($('#right-arrow'));
-        }
         var $trackPicker = $('#track-picker');
         $trackPicker.css({
             display: 'block',
@@ -325,24 +296,7 @@
 
         //요소가 보여진 후에 이벤트 등록 
         $('#close-button').on('click', function() {
-            console.log("closed");
-            //메서드 2개 혹시 모르니까 잘못되면 resetTrackPickerView()로 바꿔주기
-            makeListContentsEmpty();
-            resetTrackData();
-        });
-    }
-
-    //요소 숨기기
-    function hideElement(aDom) {
-        aDom.css({
-            display: 'none'
-        });
-    }
-
-    //요소 보여주기
-    function displayArrow(aDom) {
-        aDom.css({
-            display: 'block'
+            resetTrackPickerView();
         });
     }
 
@@ -391,12 +345,9 @@
 
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
-        start();
 
-        // 비동기 메서드
-        var promise = getAudio(streamUrl);
-        // 오디오 얻고 초기화시켜주기
-        promise.then(init);
+        removeMask();
+        start();
     }
 
     function getElementId(aTarget) {
@@ -442,27 +393,6 @@
         return 'url(' + aUrl + ')';
     }
 
-    function getAudio(aUrl) {
-        var deferred = $.Deferred();
-        // ajax is not capable of "array buffer"
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', aUrl, true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200 && (xhr.status !== 404)) {
-                audioCtx.decodeAudioData(xhr.response, function(buffer) {
-                    buf = buffer;
-                    return deferred.resolve(true);
-                });
-            }
-        };
-        xhr.onerror = function() {
-            return deferred.resolve(false);
-        };
-        xhr.send();
-        return deferred.promise();
-    }
-
     function start() {
         analyser.getByteFrequencyData(frequencyData);
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -480,7 +410,7 @@
     }
 
     function freq(frequency) {
-        //get Hz
+        //Hz값 가져오기
         var nyquistFreq = audioCtx.sampleRate / 2;
         var visualFreq = Math.round(frequency / nyquistFreq * frequencyData.length);
 
@@ -490,40 +420,6 @@
     function setSrc(streamUrl) {
         $sound.src = streamUrl;
     };
-
-    function init(isAudioDataReady) {
-        // request의 성공 여부를 확인함
-        if (!isAudioDataReady) {
-            if (isAfterFirstTrack) {
-                resetTrackData();
-            }
-            removeMask();
-            resetMainVisual();
-            showAlert();
-            return;
-        } else {
-            if (isAfterFirstTrack) {
-                resetAudioData();
-                resetTrackData();
-                resetAudioEventListers();
-            } else {
-                changeUserState(); // <- isAfterFirstTrack = true
-                resetTrackData();
-            }
-
-            setAudio();
-            setAudioDuration();
-
-            setGain();
-            connectGain();
-            connectAudio();
-
-            setAudioEventListeners();
-
-            setTrackDuration();
-            removeMask();
-        }
-    }
 
     function resetTrackData() {
         arrayOfSongsData = [];
@@ -561,65 +457,17 @@
             });
     }
 
-    function resetAudioData() {
-        resetData();
-        clearInterval(progressTimer);
-        disconnectAudio();
-        setStreamingState(false);
-        setModifiedPlaybackTimeStatus(false);
-    }
-
-    function resetData() {
-        setInitialPauseState(true);
-        pausedDuration = 0;
-    }
-
     function resetAudioEventListers() {
         $('#play-button').off('click');
-        $('#track-bar-container').off('click');
-        $('#volume-container>input').off('click');
-    }
-
-    function changeUserState() {
-        isAfterFirstTrack = true;
-    }
-
-    function setAudio() {
-        sound = audioCtx.createBufferSource();
-        sound.buffer = buf;
-    }
-
-    function setAudioDuration() {
-        trackDuration = sound.buffer.duration;
-    }
-
-    function setGain() {
-        gainNode = audioCtx.createGain();
-    }
-
-    function connectGain() {
-        sound.connect(gainNode);
-    }
-
-    function connectAudio() {
-        gainNode.connect(audioCtx.destination);
     }
 
     function setAudioEventListeners() {
-        console.log('set click event');
         $('#play-button').on('click', function() {
             if (isPlaying($sound)) {
                 $sound.pause();
             } else {
                 $sound.play();
             }
-            //setStreamController();
-        });
-        $('#track-bar-container').on('click', function(event) {
-            faderMoveByClick(event);
-        });
-        $('#track-bar-container').on('mousedown', '#fader', function(event) {
-            setFaderDrag(event);
         });
     }
 
@@ -636,53 +484,12 @@
         aDom.html(aPlaybackTimeHtml);
     }
 
-    // controll stream methods
-    function setStreamController() {
-        // get boolean
-        var streamingStatus = getStreamingStatus();
-
-        function getStreamingStatus() {
-            return isStreaming;
-        }
-
-        if (streamingStatus) {
-            setPause();
-        } else {
-            setStream();
-        }
-    }
-
-    function setPause() {
-        pause();
-        pausedTimestamp = getCurrentTime();
-        setStreamingState(false);
-        setInitialPauseState(false);
-        clearInterval(progressTimer);
-
-        // stop-button >> play-button
-        swapBtn();
-    }
-
-    // pause
-    function pause() {
-        sound.stop(0);
-    }
-
-    function getCursorPos(event) {
-        var cursorX = event.pageX;
-        return cursorX - leftPositionOfContainer;
-    }
-
     function convertLengthToTime(aLength) {
         return trackDuration * (aLength / trackBarWidth);
     }
 
     function getCurrentTime() {
         return audioCtx.currentTime;
-    }
-
-    function setStreamingState(aCondition) {
-        isStreaming = aCondition;
     }
 
     function setInitialPauseState(aCondition) {
@@ -716,102 +523,8 @@
         }
     }
 
-    function setStream() {
-        var pausedStatus = getPausedStatus();
-
-        // if never paused
-        if (pausedStatus) {
-            initialTimestamp = getCurrentTime();
-
-            now = initialTimestamp;
-            // if user changed playbacktime..
-            if (isplaybackTimeChanged) {
-                faderPosition = getFaderPosition();
-            }
-            // if not, calculate the stop time & create audio src again
-        } else {
-            var clickedTime = getCurrentTime();
-            now = clickedTime;
-            pausedDuration += (clickedTime - pausedTimestamp);
-            disconnectAudio();
-            setAudio();
-            connectGain();
-        }
-
-        var playbackTime = calcPlaybackTime(faderPosition);
-        stream(playbackTime);
-
-        // progress bar interval
-        startInterval(playbackTime);
-
-        setStreamingState(true);
-
-        // view >> play-btn
-        swapBtn();
-    }
-
-    function getPausedStatus() {
-        return isNeverPaused;
-    }
-
-    function disconnectAudio() {
-        sound.disconnect(0);
-    }
-
-    // play
-    function stream(aPlaybackTime) {
-        sound.start(0, aPlaybackTime);
-    }
-
-    function startInterval(aPlaybackTime) {
-        var $fader = $('#fader');
-        var $progressBar = $('#progress-bar');
-        var $playback = $('#playback-time');
-
-        progressTimer = setInterval(function() {
-            var length = convertTimeToLength(aPlaybackTime);
-
-            // view >> progress bar
-            changeStyle($fader, 'left', length);
-            changeStyle($progressBar, 'width', length);
-
-            // view >> playback time
-            var playbackTimeHtml = convertPlaybackTime(aPlaybackTime);
-            displayPlaybackTime($playback, playbackTimeHtml);
-
-            // interval time
-            aPlaybackTime += 0.03;
-
-            if (aPlaybackTime >= trackDuration) {
-                resetInterval();
-            }
-        }, 30);
-    }
-
     function convertTimeToLength(aPlaybackTime) {
         return aPlaybackTime / trackDuration * trackBarWidth;
-    }
-
-    function resetInterval() {
-        clearInterval(progressTimer);
-        resetData();
-        setStreamingState(false);
-        swapBtn();
-        // possible to start the song again
-        disconnectAudio();
-        setAudio();
-        connectGain();
-        // start at 0
-        setModifiedPlaybackTimeStatus(false);
-        resetFaderPosition();
-    }
-
-    function setModifiedPlaybackTimeStatus(aCondition) {
-        isplaybackTimeChanged = aCondition;
-    }
-
-    function getTrackBarWidth() {
-        return $('#track-bar').width();
     }
 
     // loading finishes
@@ -826,118 +539,5 @@
         var mask = $('<div></div>');
         mask.addClass('spinner');
         $('body').append(mask).hide().fadeIn(300);
-    }
-
-    //fader
-    function faderMoveByClick(event) {
-        // change positions of fader, progressbar
-        var cursorX = getCursorPos(event);
-        if (cursorX < 0) {
-            cursorX = 0;
-        }
-        changeStyle($('#fader'), 'left', cursorX);
-        changeStyle($('#progress-bar'), 'width', cursorX);
-
-        setModifiedPlaybackTimeStatus(true);
-        // display possible playback time
-        var playbackTime = calcPlaybackTime(cursorX);
-        // playbacktime in seconds & minutes
-        playbackTime = convertPlaybackTime(playbackTime);
-        displayPlaybackTime($('#playback-time'), playbackTime);
-
-        resetData();
-        // prepare audio buffer again
-        disconnectAudio();
-        setAudio();
-        connectGain();
-
-        // play it immediately
-        if (isStreaming) {
-            clearInterval(progressTimer);
-            setStream();
-        }
-    }
-
-    function calcPlaybackTime(aFaderPosition) {
-        return (aFaderPosition / getTrackBarWidth()) * trackDuration + (now - initialTimestamp - pausedDuration);
-    }
-
-    function setFaderDrag(event) {
-        if (isStreaming) {
-            pause();
-        }
-        resetData();
-        clearInterval(progressTimer);
-        var $jukeBox = $('#juke-box');
-
-        $jukeBox.on('mousemove', setFaderMoveController);
-        $jukeBox.on('mouseleave mouseup', detachFaderMoveController);
-    }
-
-    function setFaderMoveController(event) {
-        var faderPosX = getCursorPos(event);
-        var barWidth = getTrackBarWidth();
-        if (faderPosX < 0) {
-            faderPosX = 0;
-        }
-        if (barWidth < faderPosX) {
-            faderPosX = barWidth;
-        }
-
-        // view >> fader, progress-bar
-        changeStyle($('#fader'), 'left', faderPosX);
-        changeStyle($('#progress-bar'), 'width', faderPosX);
-
-        // view >> playback time
-        var playbackTime = convertLengthToTime(faderPosX);
-        var htmlOfTime = convertPlaybackTime(playbackTime);
-        displayPlaybackTime($('#playback-time'), htmlOfTime);
-    }
-
-    function detachFaderMoveController() {
-        // prevent events from being called multiple times
-        var $jukeBox = $('#juke-box');
-        $jukeBox.off('mousemove', setFaderMoveController);
-        $jukeBox.off('mouseleave mouseup');
-
-        // if cursor outside container
-        var isCursorInsideContainer = checkCursor(event);
-        if (!isCursorInsideContainer) {
-            faderMoveByClick(event);
-        }
-    }
-
-    function checkCursor(event) {
-        // absolute positions of cursor
-        var posX = event.pageX;
-        var posY = event.pageY;
-
-        /* 
-        container info：calc values of width height top left,
-        judge whether cursor is outside or inside
-        */
-        var $target = $('#track-bar-container');
-        var targetTop = $target.offset().top;
-        var targetLeft = $target.offset().left;
-        var targetWidth = trackBarWidth;
-        var targetHeight = $target.outerHeight();
-
-        if ((targetLeft <= posX) &&
-            (posX <= (targetLeft + targetWidth)) &&
-            (targetTop <= posY) &&
-            (posY <= (targetTop + targetHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function getFaderPosition() {
-        // get relative position to #track-bar
-        return $('#fader').position().left;
-    }
-
-    function resetFaderPosition() {
-        faderPosition = 0;
     }
 })(window, document, window.jQuery);
