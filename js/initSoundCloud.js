@@ -347,6 +347,7 @@
         analyser.connect(audioCtx.destination);
 
         removeMask();
+        setAudioEventListeners();
         start();
     }
 
@@ -457,16 +458,14 @@
             });
     }
 
-    function resetAudioEventListers() {
-        $('#play-button').off('click');
-    }
-
     function setAudioEventListeners() {
         $('#play-button').on('click', function() {
             if (isPlaying($sound)) {
                 $sound.pause();
+                swapBtn();
             } else {
                 $sound.play();
+                swapBtn();
             }
         });
     }
