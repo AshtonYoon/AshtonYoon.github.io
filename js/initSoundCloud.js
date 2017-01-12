@@ -341,7 +341,8 @@
         addMask();
 
         setSrc(streamUrl);
-        document.getElementById('sound').load();
+        $sound.crossOrigin = "anonymous";
+        $sound.load();
 
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
