@@ -95,18 +95,13 @@
         </ul>
     </div>
     <section id="juke-box">
-        <div id="track-bar-container">
-            <div id="track-bar">
-                <div id="progress-bar" style="width: 301.438px;"></div>
-                <div id="fader" style="left: 301.438px;"></div>
-                <span id="playback-time">0:00</span>
-                <span id="song-duration">2:55</span>
-            </div>
-        </div>
+        <span id="playback-time" style="margin-left: 5%">0:00</span>
+        <input type="range" value="0" min="0" max="100" step="0.1" />
+        <span id="song-duration">2:55</span>
     </section>
     <div id="visualizer" class="visualizer">
         <canvas width="300" height="300"></canvas>
-        <audio id="sound" controls></audio>
+        <audio id="sound" controls style="display: none"></audio>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
       <defs>
