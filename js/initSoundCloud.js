@@ -76,8 +76,6 @@
             analyser = audioCtx.createAnalyser(),
             frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-        $sound.crossOrigin = "anonymous";
-
         visualizer = document.getElementById('visualizer'),
             canvas = document.querySelector('#visualizer > canvas'),
             ctx = canvas.getContext('2d'),
