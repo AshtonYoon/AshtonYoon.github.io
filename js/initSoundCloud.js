@@ -325,9 +325,11 @@
         $('#main-visual').css('content', mainVisualUrl);
         $('#title').html(trackTitle);
         $('#artist').html(artistName);
+        document.title = trackTitle;
         addMask();
         setSrc(streamUrl);
         document.getElementById('sound').load();
+        removeMask();
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
         start();
@@ -431,7 +433,6 @@
             if (isAfterFirstTrack) {
                 resetTrackData();
             }
-            removeMask();
             resetMainVisual();
             showAlert();
             return;
