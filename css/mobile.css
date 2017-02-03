@@ -28,6 +28,9 @@
     .title-container {
         position: absolute;
     }
+    .title-container p {
+        letter-spacing: -1px;
+    }
     .control-container {
         position: absolute;
     }
@@ -36,5 +39,8 @@
     .next,
     .stop {
         position: absolute;
+    }
+    #track-picker {
+        width: 100%;
     }
 }
