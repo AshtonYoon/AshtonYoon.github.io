@@ -1,6 +1,8 @@
 @media only screen and (max-width: 400px) {
+    html,
     body {
         margin: 0;
+        overflow: hidden;
     }
     #background-image {
         background-size: cover;
@@ -42,5 +44,6 @@
     }
     #track-picker {
         width: 100%;
+        min-height: 100%;
     }
 }
