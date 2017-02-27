@@ -48,7 +48,7 @@
     }
     #search-button,
     #aside-container,
-    #aside-container>nav,
+    nav,
     #aside-menu-button {
         z-index: 9999;
     }
