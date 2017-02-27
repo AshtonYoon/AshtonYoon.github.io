@@ -46,4 +46,8 @@
         width: 100%;
         min-height: 100%;
     }
+    #search-button,
+    #aside-menu-button {
+        z-index: 9999;
+    }
 }
