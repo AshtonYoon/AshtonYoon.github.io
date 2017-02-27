@@ -47,6 +47,8 @@
         min-height: 100%;
     }
     #search-button,
+    #aside-container,
+    #aside-container>nav,
     #aside-menu-button {
         z-index: 9999;
     }
