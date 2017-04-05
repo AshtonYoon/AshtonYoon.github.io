@@ -5,6 +5,10 @@ body {
 
 .background {
     filter: blur(20px) brightness(50%);
+    -webkit-filter: blur(20px) brightness(50%);
+    -moz-filter: blur(20px) brightness(50%);
+    -o-filter: blur(20px) brightness(50%);
+    -ms-filter: blur(20px) brightness(50%);
     margin-left: -25%;
     margin-top: -25%;
     z-index: -1;
